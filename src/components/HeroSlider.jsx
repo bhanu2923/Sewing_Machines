@@ -8,7 +8,7 @@ export default function HeroSlider() {
     {
       id: 1,
       title: 'Premium Sewing Machines',
-      image: 'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      //image: 'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       subtitle: 'Up to 30% OFF',
       description: 'Latest models from top brands',
       bg: 'from-blue-600/80 to-blue-800/80',
@@ -17,7 +17,7 @@ export default function HeroSlider() {
       id: 2,
       title: 'Industrial Grade Quality',
       subtitle: 'Professional Solutions',
-      image: 'https://images.pexels.com/photos/1488467/pexels-photo-1488467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+     // image: 'https://images.pexels.com/photos/1488467/pexels-photo-1488467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       description: 'Built for demanding workloads',
       bg: 'from-orange-600/80 to-red-700/80',
     },
@@ -25,7 +25,7 @@ export default function HeroSlider() {
       id: 3,
       title: 'Expert Service & Support',
       subtitle: 'Free Installation',
-      image: 'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      //image: 'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
       description: 'Comprehensive warranty coverage',
       bg: 'from-teal-600/80 to-teal-800/80',
     },
@@ -61,27 +61,7 @@ export default function HeroSlider() {
             key={index}
             className="w-full flex-shrink-0 h-full relative"
           >
-            {/* Background Image */}
-            <div className="absolute inset-0 w-full h-full">
-              <img 
-                src={slide.image} 
-                alt={slide.title}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg';
-                }}
-                style={{
-                  minWidth: '100%',
-                  minHeight: '100%',
-                  objectFit: 'cover',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            </div>
-            
+           
             {/* Gradient Overlay */}
             <div className={`absolute inset-0 bg-gradient-to-r ${slide.bg} mix-blend-multiply`} />
             

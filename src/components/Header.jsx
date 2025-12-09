@@ -21,7 +21,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="bg-[#047DAA] text-white py-2">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm">
-          Delivery Only in Chennai
+          Delivery Only in AndhraPradesh
         </div>
       </div>
 
