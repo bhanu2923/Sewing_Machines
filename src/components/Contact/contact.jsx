@@ -57,7 +57,7 @@ export default function Contact() {
       <div className="max-w-6xl mx-auto">
         {/* Heading - Optimized for mobile */}
         <div className="text-center mb-6 sm:mb-10 px-2">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1a365d]">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-[#1a365d]">
             Contact <span className="text-[#c54513]">Us</span>
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-600">
@@ -67,23 +67,23 @@ export default function Contact() {
 
         {/* Main 2 Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-          {/* Contact Info Card - Simplified animation */}
-          <div className="lg:col-span-1 bg-white/95 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden border border-gray-100">
-            <div className="bg-gradient-to-r from-[#1a365d] to-[#2c5282] p-6 text-white shadow-md">
-              <h2 className="text-2xl md:text-3xl font-bold">Our Information</h2>
-              <p className="opacity-90 mt-1">We're here to help you</p>
+          {/* Contact Info Card - Responsive */}
+          <div className="w-full bg-white/95 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+            <div className="bg-gradient-to-r from-[#1a365d] to-[#2c5282] p-4 sm:p-6 text-white shadow-md">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">Our Information</h2>
+              <p className="opacity-90 mt-1 text-sm sm:text-base">We're here to help you</p>
             </div>
             
-            <div className="p-4 sm:p-6 space-y-4 sm:space-y-5 bg-gray-50/50">
+            <div className="p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 bg-gray-50/50">
               {/* Contact Item */}
-              <div className="group flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                <div className="p-2 sm:p-3 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors">
-                  <Phone className="h-6 w-6 text-[#c54513]" />
+              <div className="group flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="p-1.5 sm:p-2.5 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors flex-shrink-0">
+                  <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[#c54513]" />
                 </div>
                 <div className="flex-shrink-0 mt-0.5">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">Call Us</h3>
-                  <div className="space-y-3 sm:space-y-4">
-                    <a href="tel:9701332707" className="block text-gray-600 hover:text-[#c54513] transition-colors font-medium">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-800 mb-1">Call Us</h3>
+                  <div className="space-y-2 sm:space-y-3">
+                    <a href="tel:9701332707" className="block text-sm sm:text-base text-gray-600 hover:text-[#c54513] transition-colors font-medium">
                       +91 97013 32707
                     </a>
                    
@@ -91,15 +91,15 @@ export default function Contact() {
                 </div>
               </div>
               {/* Email Item */}
-              <div className="group flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                <div className="p-2 sm:p-3 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors">
-                  <Mail className="h-6 w-6 text-[#c54513]" />
+              <div className="group flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="p-1.5 sm:p-2.5 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors flex-shrink-0">
+                  <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-[#c54513]" />
                 </div>
-                <div className="flex-shrink-0 mt-0.5">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">Email Us</h3>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-800 mb-1">Email Us</h3>
                   <a 
                     href="#"
-                    className="text-gray-600 hover:text-[#c54513] transition-colors break-words font-medium block"
+                    className="text-xs sm:text-sm md:text-base text-gray-600 hover:text-[#c54513] transition-colors break-all font-medium block"
                     onClick={(e) => {
                       e.preventDefault();
                       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -107,18 +107,14 @@ export default function Contact() {
                       const subject = 'Contact from Andhra Machines Website';
                       
                       if (isMobile) {
-                        // For mobile devices, try to open the default email app
                         window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-                        // Fallback to copy email to clipboard if the above doesn't work
                         setTimeout(() => {
                           navigator.clipboard.writeText(email).then(() => {
-                            alert('Email address copied to clipboard! Please paste it in your email app.');
+                            alert('Email address copied to clipboard!');
                           });
                         }, 200);
                       } else {
-                        // For desktop, try to open default email client
                         window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
-                        // Fallback for webmail users
                         window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}`, '_blank');
                       }
                       return false;
@@ -130,17 +126,17 @@ export default function Contact() {
               </div>
 
               {/* WhatsApp Item */}
-              <div className="group flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                <div className="p-2 sm:p-3 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors">
-                  <MessageCircle className="h-6 w-6 text-[#c54513]" />
+              <div className="group flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="p-1.5 sm:p-2.5 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors flex-shrink-0">
+                  <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 text-[#c54513]" />
                 </div>
                 <div className="flex-shrink-0 mt-0.5">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">WhatsApp</h3>
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-800 mb-1">WhatsApp</h3>
                   <a
                     href="https://wa.me/917416421770"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-[#c54513] transition-colors font-medium block"
+                    className="text-sm sm:text-base text-gray-600 hover:text-[#c54513] transition-colors font-medium block"
                   >
                     +91 74164 21770
                   </a>
@@ -148,17 +144,17 @@ export default function Contact() {
               </div>
 
               {/* Address Item */}
-              <div className="group flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                <div className="p-2 sm:p-3 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors">
-                  <MapPin className="h-6 w-6 text-[#c54513]" />
+              <div className="group flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                <div className="p-1.5 sm:p-2.5 bg-[#1a365d]/10 rounded-xl group-hover:bg-[#c54513]/10 transition-colors flex-shrink-0">
+                  <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-[#c54513]" />
                 </div>
-                <div className="flex-shrink-0 mt-0.5">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">Our Location</h3>
-                  <address className="not-italic text-sm sm:text-base text-gray-600 font-medium">
-                    Andhra Machines Agencies,
-                    Kandakam Road,<br />
-                    Rajahmundry - 533101,
-                    Andhra Pradesh, India
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-800 mb-1">Our Location</h3>
+                  <address className="not-italic text-xs sm:text-sm text-gray-600 font-medium leading-tight sm:leading-normal">
+                    <span className="block">Andhra Machines Agencies,</span>
+                    <span className="block">Kandakam Road,</span>
+                    <span className="block">Rajahmundry - 533101,</span>
+                    <span className="block">Andhra Pradesh, India</span>
                   </address>
                   <a 
                     href="https://maps.app.goo.gl/HBKjcTHosNKR9nBJ8" 
