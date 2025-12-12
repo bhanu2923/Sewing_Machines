@@ -20,7 +20,7 @@ export default function Footer() {
               />
               <div>
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 group-hover:text-[#c54513] transition-colors">
-                Andhra Machines Agencies
+                  Andhra Machines Agencies
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-500 mt-0.5 cursor-default">Since 1982</p>
               </div>
@@ -136,18 +136,22 @@ export default function Footer() {
             </h4>
             <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
               <a
-                href="#"
-                className="bg-white border border-gray-300 hover:border-[#1877F2] hover:bg-[#1877F2] p-2 sm:p-2.5 rounded-lg transition-all duration-200"
+                href="https://www.facebook.com/andhramachinesagencies"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white border border-gray-300 hover:border-red-500 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-600 p-2 sm:p-2.5 rounded-lg transition-all duration-200"
                 aria-label="Facebook"
               >
-                <Facebook className="text-gray-600 hover:text-white" size={16} />
+                <Facebook className="text-gray-900 hover:text-white" size={16} />
               </a>
               <a
-                href="#"
-                className="bg-white border border-gray-300 hover:border-pink-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 p-2 sm:p-2.5 rounded-lg transition-all duration-200"
+                href="https://www.instagram.com/andhramachinesagencies"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white border border-gray-300 hover:border-red-500 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-600 p-2 sm:p-2.5 rounded-lg transition-all duration-200"
                 aria-label="Instagram"
               >
-                <Instagram className="text-gray-600 hover:text-white" size={16} />
+                <Instagram className="text-gray-900 hover:text-white" size={16} />
               </a>
             </div>
             <div className="bg-white border border-gray-200 rounded-lg p-2.5 sm:p-3">
@@ -169,7 +173,6 @@ export default function Footer() {
               <span>•</span>
               <a href="#" className="hover:text-[#c54513] transition-colors">Terms of Service</a>
               <span>•</span>
-              <a href="#" className="hover:text-[#c54513] transition-colors">Sitemap</a>
             </div>
           </div>
         </div>

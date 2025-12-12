@@ -14,9 +14,9 @@ export default function AboutSection() {
                 <Link to="/" className="inline-block group">
                   <div className="text-center lg:text-left">
                     <img
-                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765255577/logo_sewing_td6tcf.png"
+                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765538948/ChatGPT_Image_Dec_12_2025_04_58_34_PM_xjqaqj.png"
                       alt="Andhra Machines Agencies Logo"
-                      className="h-32 sm:h-40 lg:h-44 w-auto mx-auto lg:mx-0 transition-transform group-hover:scale-105"
+                      className="h-32 sm:h-40 lg:h-44 w-auto mx-auto lg:mx-12 transition-transform group-hover:scale-105"
                     />
                     <div className="mt-4">
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#c54513] transition-colors">
@@ -48,7 +48,7 @@ export default function AboutSection() {
               </div>
 
               {/* Key Stats */}
-              <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-8">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-8">
                 <div className="text-center lg:text-left">
                   <div className="text-3xl sm:text-4xl font-bold text-[#c54513] mb-1">25+</div>
                   <div className="text-sm sm:text-base text-gray-600">Years Experience</div>
@@ -57,10 +57,7 @@ export default function AboutSection() {
                   <div className="text-3xl sm:text-4xl font-bold text-[#c54513] mb-1">1000+</div>
                   <div className="text-sm sm:text-base text-gray-600">Happy Customers</div>
                 </div>
-                <div className="text-center lg:text-left">
-                  <div className="text-3xl sm:text-4xl font-bold text-[#c54513] mb-1">All</div>
-                  <div className="text-sm sm:text-base text-gray-600">India Delivery</div>
-                </div>
+               
               </div>
             </div>
           </div>
