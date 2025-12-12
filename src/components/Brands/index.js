@@ -1,2 +1,2 @@
-export { default } from './Brands';
+export { default } from './Brands.jsx';
 
