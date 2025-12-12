@@ -7,22 +7,22 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Content with Logo and Text */}
         <div className="mb-16 sm:mb-20">
-          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
+          <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-12">
             {/* Logo Section - Left */}
             <div className="flex-shrink-0 w-full lg:w-auto">
               <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 lg:p-10 shadow-lg border border-gray-200">
                 <Link to="/" className="inline-block group">
                   <div className="text-center lg:text-left">
-                    <img 
-                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765255577/logo_sewing_td6tcf.png" 
-                      alt="Murthy Sewing Machines Logo" 
+                    <img
+                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765255577/logo_sewing_td6tcf.png"
+                      alt="Andhra Machines Agencies Logo"
                       className="h-32 sm:h-40 lg:h-44 w-auto mx-auto lg:mx-0 transition-transform group-hover:scale-105"
                     />
                     <div className="mt-4">
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#c54513] transition-colors">
-                        Murthy Sewing Machines
+                        Andhra Machines Agencies
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">Since 1998</p>
+                      <p className="text-sm text-gray-500 mt-1">Since 1982</p>
                     </div>
                   </div>
                 </Link>
@@ -37,7 +37,7 @@ export default function AboutSection() {
                 </h2>
                 <div className="w-20 h-1.5 bg-[#c54513] rounded-full"></div>
               </div>
-              
+
               <div className="space-y-5 text-gray-700">
                 <p className="text-base sm:text-lg leading-relaxed">
                   We are one of <span className="font-semibold text-[#c54513]">Andhra Pradesh's most trusted sewing machine specialists</span>, serving customers since 1998. With over 25 years of experience, we provide a complete range of domestic, professional, and industrial sewing machines, along with genuine accessories and expert servicing.
