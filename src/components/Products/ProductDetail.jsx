@@ -1,19 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, Plus, Check, ChevronDown } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Share2, ChevronLeft, ChevronRight, Plus, Check, ChevronDown, X } from 'lucide-react';
 import { useCart } from '../../contexts/CartContext';
 import { useFavorites } from '../../contexts/FavoritesContext';
 import { shareProduct } from '../../utils/share';
+
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
   const { addToCart: addToCartContext } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
+  // Product state
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [openFAQIndex, setOpenFAQIndex] = useState(null);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
+  
+  // Swipe functionality state
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const imageContainerRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   // Mock product data - in a real app, this would be an API call
   const product = {
@@ -152,10 +163,9 @@ const ProductDetail = () => {
   ];
 
   const [selectedAccessories, setSelectedAccessories] = useState(new Set());
+  // Carousel state for related products
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselRef = useRef(null);
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
 
   const toggleAccessory = (accessoryId) => {
     setSelectedAccessories(prev => {
@@ -204,28 +214,43 @@ const ProductDetail = () => {
   };
 
   const prevSlide = () => {
-    setCurrentSlide(prev => Math.max(prev - 1, 0));
+    setCurrentSlide(prev => Math.max(0, prev - 1));
   };
 
+  // Touch handlers for image swiping
   const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    touchStartX.current = clientX;
+    touchEndX.current = clientX;
+    setIsSwiping(true);
   };
 
   const handleTouchMove = (e) => {
-    touchEndX.current = e.touches[0].clientX;
+    if (!isSwiping) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    touchEndX.current = clientX;
+    setSwipeOffset(clientX - touchStartX.current);
   };
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-
-    const distance = touchStartX.current - touchEndX.current;
-    const minSwipeDistance = 50;
-
-    if (distance > minSwipeDistance) {
-      nextSlide();
-    } else if (distance < -minSwipeDistance) {
-      prevSlide();
+    if (!isSwiping) return;
+    
+    const threshold = 50; // Minimum distance to trigger a swipe
+    const difference = touchEndX.current - touchStartX.current;
+    
+    if (Math.abs(difference) > threshold) {
+      if (difference > 0 && selectedImage > 0) {
+        // Swipe right - go to previous image
+        setSelectedImage(prev => prev - 1);
+      } else if (difference < 0 && selectedImage < product.images.length - 1) {
+        // Swipe left - go to next image
+        setSelectedImage(prev => prev + 1);
+      }
     }
+    
+    // Reset states
+    setSwipeOffset(0);
+    setIsSwiping(false);
   };
 
   // Convert USD to INR (approximate rate: 1 USD = 83 INR)
@@ -262,6 +287,41 @@ const ProductDetail = () => {
     setShowShareMenu(false);
   };
 
+  // Handle keyboard navigation for main gallery
+  useEffect(() => {
+    if (isImageModalOpen) return; // Don't handle keys if modal is open
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft' && selectedImage > 0) {
+        setSelectedImage(prev => prev - 1);
+      } else if (e.key === 'ArrowRight' && selectedImage < product.images.length - 1) {
+        setSelectedImage(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImage, product.images.length, isImageModalOpen]);
+
+  // Handle keyboard navigation for modal
+  useEffect(() => {
+    if (!isImageModalOpen) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsImageModalOpen(false);
+        document.body.style.overflow = 'unset';
+      } else if (e.key === 'ArrowLeft' && modalImageIndex > 0) {
+        setModalImageIndex(prev => prev - 1);
+      } else if (e.key === 'ArrowRight' && modalImageIndex < product.images.length - 1) {
+        setModalImageIndex(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isImageModalOpen, modalImageIndex, product.images.length]);
+
   return (
     <div className="bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -277,30 +337,111 @@ const ProductDetail = () => {
           {/* Image gallery */}
           <div className="mb-6 lg:mb-0">
             {/* Main Image */}
-            <div className="w-full bg-gray-50 rounded-xl overflow-hidden shadow-sm mb-4 relative">
+            <div 
+              className="w-full bg-gray-50 rounded-xl overflow-hidden shadow-sm mb-4 relative"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onMouseDown={handleTouchStart}
+              onMouseMove={handleTouchMove}
+              onMouseUp={handleTouchEnd}
+              onMouseLeave={handleTouchEnd}
+              ref={imageContainerRef}
+              role="region"
+              aria-label="Product image gallery"
+              tabIndex={0}
+            >
               {/* Like and Share Buttons */}
               <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
                 <button
-                  onClick={handleFavorite}
-                  className={`p-2 bg-white rounded-full shadow-md transition-colors ${isFavorite(product.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'
-                    }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFavorite();
+                  }}
+                  className={`p-2 bg-white rounded-full shadow-md transition-colors ${isFavorite(product.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
                   title={isFavorite(product.id) ? 'Remove from favorites' : 'Add to favorites'}
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <Heart className={`h-5 w-5 ${isFavorite(product.id) ? 'fill-current' : ''}`} />
                 </button>
                 <button
-                  onClick={() => handleShare('native')}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShare('native');
+                  }}
                   className="p-2 bg-white rounded-full shadow-md text-gray-400 hover:text-[#c54513] transition-colors"
                   title="Share"
+                  onTouchStart={(e) => e.stopPropagation()}
                 >
                   <Share2 className="h-5 w-5" />
                 </button>
               </div>
-              <img
-                src={product.images[selectedImage]}
-                alt={product.name}
-                className="w-full h-auto max-h-[600px] object-contain object-center"
-              />
+              
+              {/* Navigation Arrows */}
+              {selectedImage > 0 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImage(prev => Math.max(0, prev - 1));
+                  }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 transition-colors"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="h-6 w-6 text-gray-700" />
+                </button>
+              )}
+              
+              {selectedImage < product.images.length - 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImage(prev => Math.min(product.images.length - 1, prev + 1));
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-md z-10 transition-colors"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="h-6 w-6 text-gray-700" />
+                </button>
+              )}
+              
+              {/* Image with swipe effect - Clickable to open modal */}
+              <div 
+                className="relative w-full h-full transition-transform duration-300 ease-out cursor-zoom-in"
+                style={{
+                  transform: `translateX(${swipeOffset}px)`,
+                  touchAction: 'pan-y',
+                }}
+                onClick={() => {
+                  setModalImageIndex(selectedImage);
+                  setIsImageModalOpen(true);
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
+                <img
+                  src={product.images[selectedImage]}
+                  alt={`${product.name} - Image ${selectedImage + 1}`}
+                  className="w-full h-auto max-h-[600px] object-contain object-center select-none"
+                  draggable="false"
+                />
+              </div>
+              
+              {/* Image indicator dots */}
+              {product.images.length > 1 && (
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                  {product.images.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImage(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all ${index === selectedImage ? 'bg-[#c54513] w-6' : 'bg-gray-300'}`}
+                      aria-label={`View image ${index + 1} of ${product.images.length}`}
+                      aria-current={index === selectedImage ? 'true' : 'false'}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Image Thumbnails */}
@@ -310,7 +451,12 @@ const ProductDetail = () => {
                   key={index}
                   type="button"
                   onClick={() => setSelectedImage(index)}
-                  className={`relative aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all ${selectedImage === index
+                  onDoubleClick={() => {
+                    setModalImageIndex(index);
+                    setIsImageModalOpen(true);
+                    document.body.style.overflow = 'hidden';
+                  }}
+                  className={`relative aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${selectedImage === index
                     ? 'border-[#c54513] ring-2 ring-[#c54513] ring-offset-2'
                     : 'border-gray-200 hover:border-gray-300'
                     }`}
@@ -745,7 +891,7 @@ const ProductDetail = () => {
             {[
               {
                 question: 'What is the warranty period?',
-                answer: '2 years manufacturer warranty covering defects and parts. Extended warranty options available.'
+                answer: '1 - 5 years manufacturer warranty covering defects and parts. Extended warranty options available.'
               },
               {
                 question: 'Does it come with accessories?',
@@ -894,6 +1040,126 @@ const ProductDetail = () => {
           )}
         </div>
       </div>
+
+      {/* Image Modal - E-commerce Style */}
+      {isImageModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center"
+          onClick={() => {
+            setIsImageModalOpen(false);
+            document.body.style.overflow = 'unset';
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={() => {
+            if (!isSwiping) return;
+            const threshold = 50;
+            const difference = touchEndX.current - touchStartX.current;
+            
+            if (Math.abs(difference) > threshold) {
+              if (difference > 0 && modalImageIndex > 0) {
+                setModalImageIndex(prev => prev - 1);
+              } else if (difference < 0 && modalImageIndex < product.images.length - 1) {
+                setModalImageIndex(prev => prev + 1);
+              }
+            }
+            setIsSwiping(false);
+          }}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => {
+              setIsImageModalOpen(false);
+              document.body.style.overflow = 'unset';
+            }}
+            className="absolute top-4 right-4 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-sm"
+            aria-label="Close modal"
+          >
+            <X className="h-6 w-6" />
+          </button>
+
+          {/* Previous Button */}
+          {product.images.length > 1 && modalImageIndex > 0 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setModalImageIndex(prev => prev - 1);
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-sm"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-8 w-8" />
+            </button>
+          )}
+
+          {/* Next Button */}
+          {product.images.length > 1 && modalImageIndex < product.images.length - 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setModalImageIndex(prev => prev + 1);
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors backdrop-blur-sm"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-8 w-8" />
+            </button>
+          )}
+
+          {/* Main Image Container - Fixed dimensions */}
+          <div
+            className="relative w-full h-full flex items-center justify-center px-4 py-20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative w-full max-w-5xl h-[80vh] flex items-center justify-center">
+              <img
+                src={product.images[modalImageIndex]}
+                alt={`${product.name} - Image ${modalImageIndex + 1}`}
+                className="max-w-full max-h-full w-auto h-auto object-contain"
+                style={{ 
+                  maxWidth: '100%', 
+                  maxHeight: '80vh',
+                  width: 'auto',
+                  height: 'auto'
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Image Counter */}
+          {product.images.length > 1 && (
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-black/50 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm">
+              {modalImageIndex + 1} / {product.images.length}
+            </div>
+          )}
+
+          {/* Thumbnail Strip */}
+          {product.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-3 max-w-[90vw] overflow-x-auto px-4 py-3 bg-black/30 rounded-lg backdrop-blur-sm">
+              {product.images.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setModalImageIndex(index);
+                  }}
+                  className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                    modalImageIndex === index
+                      ? 'border-white ring-2 ring-white scale-110'
+                      : 'border-white/30 hover:border-white/60 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <img
+                    src={image}
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

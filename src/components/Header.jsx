@@ -74,7 +74,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="bg-[#047DAA] text-white py-1.5 sm:py-2">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 text-center text-xs sm:text-sm">
-          Delivery Available Across Andhra Pradesh
+          Delivery Available Across India
         </div>
       </div>
 

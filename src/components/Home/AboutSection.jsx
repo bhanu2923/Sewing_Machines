@@ -14,15 +14,15 @@ export default function AboutSection() {
                 <Link to="/" className="inline-block group">
                   <div className="text-center lg:text-left">
                     <img
-                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765538948/ChatGPT_Image_Dec_12_2025_04_58_34_PM_xjqaqj.png"
+                      src="https://res.cloudinary.com/durbtkhbz/image/upload/v1765538948/ChatGPT_Image_Dec_12_2025_04_58_34_PM_mhcvyo.png"
                       alt="Andhra Machines Agencies Logo"
-                      className="h-32 sm:h-40 lg:h-44 w-auto mx-auto lg:mx-12 transition-transform group-hover:scale-105"
+                      className="h-32 sm:h-40 lg:h-44 w-auto mx-auto lg:mx-12 transition-transform group-hover:scale-105 cursor-default"
                     />
                     <div className="mt-4">
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#c54513] transition-colors">
+                      <h3 className="text-xl sm:text-2xl font-bold text-[#c54513] group-hover:text-[#c54513] transition-colors cursor-default">
                         Andhra Machines Agencies
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1">Since 1982</p>
+                      <p className="text-sm text-gray-500 mt-1 cursor-default">Since 1982</p>
                     </div>
                   </div>
                 </Link>
@@ -32,7 +32,7 @@ export default function AboutSection() {
             {/* Content Section - Right */}
             <div className="flex-1">
               <div className="mb-6">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-4xl font-bold text-gray-900 mb-4">
                   Who We Are?
                 </h2>
                 <div className="w-20 h-1.5 bg-[#c54513] rounded-full"></div>
@@ -40,7 +40,7 @@ export default function AboutSection() {
 
               <div className="space-y-5 text-gray-700">
                 <p className="text-base sm:text-lg leading-relaxed">
-                  We are one of <span className="font-semibold text-[#c54513]">Andhra Pradesh's most trusted sewing machine specialists</span>, serving customers since 1998. With over 25 years of experience, we provide a complete range of domestic, professional, and industrial sewing machines, along with genuine accessories and expert servicing.
+                  We are one of <span className="font-semibold text-[#c54513]">Andhra Pradesh's most trusted sewing machine specialists</span>, serving customers since 1982. With over 43 years of experience, we provide a complete range of domestic, professional, and industrial sewing machines, along with genuine accessories and expert servicing.
                 </p>
                 <p className="text-base sm:text-lg leading-relaxed">
                   From our roots in <span className="font-semibold">Rajahmundry</span> to our expanding presence across the state, we have built a reputation for quality, reliability, and customer-first service. Today, we are proud to extend our reach—delivering sewing machines and accessories across India and supporting customers nationwide.
@@ -50,7 +50,7 @@ export default function AboutSection() {
               {/* Key Stats */}
               <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-8">
                 <div className="text-center lg:text-left">
-                  <div className="text-3xl sm:text-4xl font-bold text-[#c54513] mb-1">25+</div>
+                  <div className="text-3xl sm:text-4xl font-bold text-[#c54513] mb-1">43+</div>
                   <div className="text-sm sm:text-base text-gray-600">Years Experience</div>
                 </div>
                 <div className="text-center lg:text-left">
